@@ -1,0 +1,27 @@
+{
+  "name": "john-henrys-hammer",
+  "version": "0.0.0",
+  "description": "A tool among tools.",
+  "bin": {
+    "jhh": "bin/install.js"
+  },
+  "repository": "git@github.com:johnhenry/jhh.git",
+  "engines": {
+    "node": "^5.0.0",
+    "npm": "^3.0.0"
+  },
+  "author": "John Henry",
+  "license": "MIT",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "dependencies": {
+    "co": "^4.6.0",
+    "fs-extra": "^0.26.2",
+    "inquisitor": "0.0.4",
+    "yargs": "^3.30.0"
+  },
+  "devDependencies": {
+    "eslint": "^1.10.1"
+  }
+}
