@@ -5,7 +5,7 @@
   "bin": {
     "jhh": "bin/install.js"
   },
-  "repository": "git@github.com:johnhenry/jhh.git",
+  "repository": "git@github.com:johnhenry/john-henrys-hammer.git",
   "engines": {
     "node": "^5.0.0",
     "npm": "^3.0.0"

@@ -38,7 +38,7 @@ const initialize = (pack) => {
   log(`${packageName} installed!`);
   log(`installing npm script...`);
   pack.scripts = pack.scripts || {};
-  pack.scripts['build']= `./node_modules/${name}/bin/run.js`;
+  pack.scripts['build']= `./node_modules/${packageName}/bin/run.js`;
   log(`script installed as 'npm run build'!`);
   fs.writeFileSync(packageFilePath, JSON.stringify(pack, undefined, `  `));
 };
