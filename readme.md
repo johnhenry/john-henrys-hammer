@@ -29,6 +29,7 @@ From your commandline, type
 ```bash
 npm install --global john-henrys-hammer
 ```
+and save local version as instructed.
 
 ###Project Installation
 
@@ -102,7 +103,7 @@ or "plugins" to use with John Henry's Hammer.
 
 ####Nail Property:"plugin"
   Each plugin or "nail" must have a "plugin" property which points to a node module.
-  Strings beginning with a '.' or a '/' will be resolved locally, and otherwise will be downloaded and installed via when run.
+  Strings beginning with a '.' or a '/' will be resolved locally, and otherwise will be downloaded via when run. Nails should still be installed manually using 'npm install' to ensure that they are carried along with the project.
 
 ####Nail Property:"order"
   Optionally, a "nail" may have an "order" property, an integer, specifying the order to run with relation to others. If a nail lacks this property, it will be run simultaneously along the ones that do. Use this to prevent race-conditions

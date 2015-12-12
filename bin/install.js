@@ -34,13 +34,14 @@ if(argv[`version`]){
 const packageFilePath = resolveCWD(`package.json`);
 const initialize = (pack) => {
   log(`installing ${packageName} locally...`);
-  log(`npm install --save ${packageName}@${version}`);
-  exec(`npm install --save ${packageName}@${version}`);
+  log(`npm install ${packageName}@${version}`);
+  exec(`npm install ${packageName}@${version}`);
   log(`${packageName} installed!`);
   log(`installing npm script...`);
   pack.scripts = pack.scripts || {};
   pack.scripts['build']= `node ./node_modules/${packageName}`;
   log(`script installed as 'npm run build'!`);
+  log(`Final step: type 'npm install --save ${packageName}@${version}' to save local version.`);
   fs.writeFileSync(packageFilePath, JSON.stringify(pack, undefined, `  `));
 };
 const getNPM = ()=>{

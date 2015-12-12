@@ -182,7 +182,7 @@ ${JSON.stringify(config, undefined, ` `)}`);
       }catch(error){
         if (error.code === 'MODULE_NOT_FOUND'){
           logVerbose(`installing module ${step.plugin}`);
-          exec(`npm install --save ${step.plugin}`);
+          exec(`npm install ${step.plugin}`);
           process = require(step.plugin);
         }else{
           logError(new Error(`Error loading plugin: ${error}`));
@@ -245,7 +245,7 @@ ${JSON.stringify(config, undefined, ` `)}`);
         }catch(error){
           if (error.code === 'MODULE_NOT_FOUND'){
             logVerbose(`installing module ${step.plugin}`);
-            exec(`npm install --save ${step.plugin}`);
+            exec(`npm install ${step.plugin}`);
             process = require(step.plugin);
           }else{
             logError(new Error(`Error loading plugin: ${error}`));
