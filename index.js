@@ -8,13 +8,13 @@ const yargs = require(`yargs`);
 const co    = require(`co`);
 const inquisitor = require(`inquisitor`);
 //local imports
-const rmdir = require(`../lib/rmdir`);
+const rmdir = require(`./lib/rmdir`);
 
 //constants
 const cwd = process.cwd();
 const resolveCWD = target => path.resolve(cwd, target);
 const resolveLocal = target => path.resolve(__dirname, target);
-const packageObj = require(resolveLocal(`../package.json`));
+const packageObj = require(resolveLocal(`./package.json`));
 const name = 'jhh';
 const version = packageObj.version;
 const packageName = packageObj.name;
@@ -291,13 +291,13 @@ const checkConfig = () => {
 //Do not exectue, but rather add script
 if(argv.add){
   const command = process.argv.slice(2).join(' ')
-    .replace(/\-{1,2}a(?:dd){0,1}\s{0,}=?\s{0,}[A-z][A-z0-9\-]{0,}/, ``);
+    .replace(/\-{1,2}a(?:dd){0,1}\s{0,}=?\s{0,}[A-z][A-z0-9]{0,}/, ``)
   let pack;
   try{
     pack = JSON.parse(fs.readFileSync(packageFilePath));
     log(`installing npm script...`);
     pack.scripts = pack.scripts || {};
-    pack.scripts[argv.add]= `node ./node_modules/${packageName}/bin/run.js ${command}`;
+    pack.scripts[argv.add]= `node ./node_modules/${packageName} ${command}`;
     log(`script installed as 'npm run ${argv.add}'!`);
     return fs.writeFileSync(packageFilePath, JSON.stringify(pack, undefined, `  `));
   }catch(error){
