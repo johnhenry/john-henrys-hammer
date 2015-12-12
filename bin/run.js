@@ -18,6 +18,7 @@ const resolveLocal = target => path.resolve(__dirname, target);
 const packageObj = require(resolveLocal(`../package.json`));
 const name = 'jhh';
 const version = packageObj.version;
+const packageName = packageObj.name;
 const defaultDirectory = name;
 const configBase = `nailfile`;
 const argv = yargs
@@ -292,14 +293,12 @@ const checkConfig = () => {
 if(argv.add){
   const command = process.argv.slice(2).join(' ')
     .replace(/\-{1,2}a(?:dd){0,1}\s{0,}=?\s{0,}[A-z][A-z0-9]{0,}/, ``)
-
-  //TODO : Place options after '--'?
   let pack;
   try{
     pack = JSON.parse(fs.readFileSync(packageFilePath));
     log(`installing npm script...`);
     pack.scripts = pack.scripts || {};
-    pack.scripts[argv.add]= `./node_modules/${name}/bin/run.js ${command}`;
+    pack.scripts[argv.add]= `./node_modules/${packageName}/bin/run.js ${command}`;
     log(`script installed as 'npm run ${argv.add}'!`);
     return fs.writeFileSync(packageFilePath, JSON.stringify(pack, undefined, `  `));
   }catch(error){
