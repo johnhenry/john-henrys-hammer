@@ -1,4 +1,3 @@
-#! /usr/bin/env node
 'use strict';
 
 //imports
@@ -298,7 +297,7 @@ if(argv.add){
     pack = JSON.parse(fs.readFileSync(packageFilePath));
     log(`installing npm script...`);
     pack.scripts = pack.scripts || {};
-    pack.scripts[argv.add]= `./node_modules/${packageName}/bin/run.js ${command}`;
+    pack.scripts[argv.add]= `node ./node_modules/${packageName}/bin/run.js ${command}`;
     log(`script installed as 'npm run ${argv.add}'!`);
     return fs.writeFileSync(packageFilePath, JSON.stringify(pack, undefined, `  `));
   }catch(error){
