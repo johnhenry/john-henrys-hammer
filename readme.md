@@ -157,13 +157,11 @@ If you want your own nail to show up here, publish it to npm and create a pull r
 
 - [nail-polish]() Remove specific files. (No, the pun doesn't quite work, but it 'kinda' works, and that's all that really matters...)
 
-- [nail-cssedge]() Hammer your stylesheets down to a single file
+- [nail-css-edge]() Hammer your stylesheets down to a single file
 
-- [nail-jsedge]() Hammer your scripts down to a single file
+- [nail-js-edge]() Hammer your scripts down to a single file
 
-- [nail-static-react] () create a static page using React components.
-
-- [nail-static-blog-react]() create a static blog using React components
+- [nail-static-react] () create a static pages using React components.
 
 ##Appendix
 

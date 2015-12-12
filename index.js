@@ -173,7 +173,8 @@ ${JSON.stringify(config, undefined, ` `)}`);
     step.config = {
       name : config.name,
       dir : config.dir,
-      purge : config.purge
+      purge : config.purge,
+      'log-level' : logLevel
     };
     if([`.`, `/`].indexOf(step.plugin[0]) >= 0){
       process = require(resolveCWD(step.plugin));
@@ -232,11 +233,11 @@ ${JSON.stringify(config, undefined, ` `)}`);
         if(tagged) continue;
       }
       let process;
-      step.plugin = step.plugin || `#script`;
       step.config = {
         name : config.name,
         dir : config.dir,
-        purge : config.purge
+        purge : config.purge,
+        'log-level' : logLevel
       };
       if([`.`, `/`].indexOf(step.plugin[0]) >= 0){
         process = require(resolveCWD(step.plugin));
