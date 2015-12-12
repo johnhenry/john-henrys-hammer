@@ -24,6 +24,7 @@ const argv = yargs
   })
   .option(`version`, {
     type: `boolean`,
+    alias: `v`,
     describe: `show version`
   })
   .argv;

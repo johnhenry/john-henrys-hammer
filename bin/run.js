@@ -292,7 +292,7 @@ const checkConfig = () => {
 //Do not exectue, but rather add script
 if(argv.add){
   const command = process.argv.slice(2).join(' ')
-    .replace(/\-{1,2}a(?:dd){0,1}\s{0,}=?\s{0,}[A-z][A-z0-9]{0,}/, ``)
+    .replace(/\-{1,2}a(?:dd){0,1}\s{0,}=?\s{0,}[A-z][A-z0-9]{0,}/, ``);
   let pack;
   try{
     pack = JSON.parse(fs.readFileSync(packageFilePath));
