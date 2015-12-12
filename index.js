@@ -119,11 +119,14 @@ ${JSON.stringify(config, undefined, ` `)}`);
     rmdir(resolveCWD(config.dir));
     log(`purged!`);
   }
-  //Create directory for previous build
+  //Create directory for build
   try{
     fs.mkdirSync(resolveCWD(config.dir));
   }catch(error){
-    return logError(new Error(`Error creating directory: ${error}`));
+    if(error.code !== "EEXIST")
+      return logError(new Error(`Error creating directory: ${error}`));
+    else
+      log(`${config.dir} already exists`)
   }
   log(`building files...`);
   if(tags.length)
