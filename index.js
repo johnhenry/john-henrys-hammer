@@ -131,11 +131,13 @@ ${JSON.stringify(config, undefined, ` `)}`);
   log(`building files...`);
   if(tags.length)
     log(`running steps tagged with: ${tags.join(`,`)}`);
-  const steps = config.nails || [];
+  const unordered = (config.nails || [])
+    .filter($=>$.order === undefined);
+  const ordered = (config.nails || [])
+      .filter($=>$.order !== undefined)
+      .sort((a,b)=>a.order - b.order);
   //Unordered
-  for(var step of steps
-    .filter($=>$.order === undefined)
-    .sort((a,b)=>a.order - b.order)){
+  for(var step of unordered){
     if(tags.length){
       let tagged = false;
       const stepTags = typeof step.tag === 'object' ? step.tag : [step.tag];
@@ -201,9 +203,7 @@ ${JSON.stringify(config, undefined, ` `)}`);
   }
   //Ordered
   co(function*(){
-    for(var step of steps
-      .filter($=>$.order !== undefined)
-      .sort((a,b)=>a.order - b.order)){
+    for(var step of ordered){
       if(tags.length){
         let tagged = false;
         const stepTags = typeof step.tag === 'object' ? step.tag : [step.tag];
@@ -263,8 +263,7 @@ ${JSON.stringify(config, undefined, ` `)}`);
       logVerbose(`(ordered)`);
     }
   }).catch(logError);
-  log(`built!`);
-  logVerbose(`(pending unordered)`);
+  return;
 };
 const checkConfig = () => {
   const config = getconfig();
