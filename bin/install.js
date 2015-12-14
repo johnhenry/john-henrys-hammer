@@ -35,7 +35,7 @@ const packageFilePath = resolveCWD(`package.json`);
 const initialize = (pack) => {
   log(`installing ${packageName} locally...`);
   log(`npm install ${packageName}@${version}`);
-  exec(`npm install ${packageName}@${version}`);
+  exec(`npm install ${packageName}@${version}`, {stdio:[0, 1, 2]});
   log(`${packageName} installed!`);
   log(`installing npm script...`);
   pack.scripts = pack.scripts || {};
@@ -50,7 +50,8 @@ const getNPM = ()=>{
     pack = JSON.parse(fs.readFileSync(packageFilePath));
   }catch(error){
     logError(new Error(`valid 'package.json' file required: ${error}`));
-    return log(`try running 'npm init' first.`);
+    exec(`npm init`, {stdio:[0, 1, 2]});
+    pack = JSON.parse(fs.readFileSync(packageFilePath));
   }
   return initialize(pack);
 };
