@@ -1,6 +1,6 @@
 {
   "name": "john-henrys-hammer",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A tool among tools.",
   "bin": {
     "jhh": "bin/install.js"
