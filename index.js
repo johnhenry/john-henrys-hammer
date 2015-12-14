@@ -281,7 +281,7 @@ const checkConfig = () => {
     },
     dir: {
       type: 'input',
-      message: `Deffine output directory?(${defaultDirectory})`,
+      message: `Deffine output directory?`,
       default: defaultDirectory
     },
   }))

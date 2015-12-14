@@ -17,7 +17,7 @@ const log = console.log.bind(console);
 const logError = console.error.bind(console);
 
 const argv = yargs
-  .usage(`${name}`)
+  .usage(`Usage run '${name}' from within your project folder.`)
   .help(`help`)
   .option(`help`, {
     alias: `h`
@@ -25,7 +25,7 @@ const argv = yargs
   .option(`version`, {
     type: `boolean`,
     alias: `v`,
-    describe: `show version`
+    describe: `Show version`
   })
   .argv;
 if(argv[`version`]){
@@ -41,7 +41,7 @@ const initialize = (pack) => {
   pack.scripts = pack.scripts || {};
   pack.scripts['build']= `node ./node_modules/${packageName}`;
   log(`script installed as 'npm run build'!`);
-  log(`Final step: type 'npm install --save ${packageName}@${version}' to save local version.`);
+  log(`IMPORTANT: run 'npm install --save ${packageName}@${version}' to save local version.`);
   fs.writeFileSync(packageFilePath, JSON.stringify(pack, undefined, `  `));
 };
 const getNPM = ()=>{
