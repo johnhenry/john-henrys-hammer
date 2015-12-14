@@ -176,8 +176,9 @@ If you want your own nail to show up here, publish it to npm and create a pull r
   "purge" : true,
   "nails" : [
     {
-      "plugin" : "nail-copy",
+      "plugin" : "nail-example",
       "source" : "assets",
+      "custom" : "custom"
     }]
 }
 ```
@@ -185,7 +186,7 @@ If you want your own nail to show up here, publish it to npm and create a pull r
 ###<a name="appendix-example-nail"></a>II. Example Nail
 
 ```javascript
-const fs = require('fs');
+//file:nail-example/index.js
 module.exports = ({plugin, order, tag, config, custom })=> new Promise((resolve) => {
   console.log(plugin);
   console.log(order);
