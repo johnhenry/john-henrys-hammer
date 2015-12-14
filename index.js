@@ -166,7 +166,7 @@ ${JSON.stringify(config, undefined, ` `)}`);
       }
       if(tagged) continue;
     }
-    let process;
+    let run;
     if(!step.plugin){
       log(`skipping buildstep with missing plugin.`);
       logVerbose(step);
@@ -179,25 +179,27 @@ ${JSON.stringify(config, undefined, ` `)}`);
       'log-level' : logLevel
     };
     if([`.`, `/`].indexOf(step.plugin[0]) >= 0){
-      process = require(resolveCWD(step.plugin));
+      run = require(resolveCWD(step.plugin));
     }
     else{
+
       try{
-        process = require(step.plugin);
-        console.log(typeof require)
+        run = require(step.plugin);
       }catch(error){
         if (error.code === 'MODULE_NOT_FOUND'){
           logVerbose(`installing module ${step.plugin}`);
-          exec(`npm install ${step.plugin}`);
-          process = require(step.plugin);
+          exec(`npm install ${step.plugin}`,{stdio:[0, 1, 2]});
+          run = require(step.plugin);
         }else{
           logError(new Error(`Error loading plugin: ${error}`));
+          log(`skipping ${step.plugin}.`);
+          continue;
         }
       }
     }
     log(`starting ${step.plugin}...`);
     logVerbose(`(unordered)`);
-    process(step).catch(logError);
+    run(step).catch(logError);
     log(`finished ${step.plugin}.`);
     logVerbose(`(unordered)`);
   }
@@ -232,7 +234,7 @@ ${JSON.stringify(config, undefined, ` `)}`);
         }
         if(tagged) continue;
       }
-      let process;
+      let run;
       step.config = {
         name : config.name,
         dir : config.dir,
@@ -240,25 +242,27 @@ ${JSON.stringify(config, undefined, ` `)}`);
         'log-level' : logLevel
       };
       if([`.`, `/`].indexOf(step.plugin[0]) >= 0){
-        process = require(resolveCWD(step.plugin));
+        run = require(resolveCWD(step.plugin));
       }
       else{
         try{
-          process = require(step.plugin);
+          run = require(step.plugin);
         }catch(error){
           if (error.code === 'MODULE_NOT_FOUND'){
             logVerbose(`installing module ${step.plugin}`);
-            exec(`npm install ${step.plugin}`);
-            process = require(step.plugin);
+            exec(`npm install ${step.plugin}`,{stdio:[0, 1, 2]});
+            run = require(step.plugin);
           }else{
             logError(new Error(`Error loading plugin: ${error}`));
+            log(`skipping ${step.plugin}.`);
+            continue;
           }
         }
       }
       log(`starting ${step.plugin}...`);
       logVerbose(`(ordered)`);
       try{
-        yield process(step);
+        yield run(step);
       }catch(error){
         logError(error);
       }
