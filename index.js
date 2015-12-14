@@ -197,7 +197,7 @@ ${JSON.stringify(config, undefined, ` `)}`);
     }
     log(`starting ${step.plugin}...`);
     logVerbose(`(unordered)`);
-    process(step);
+    process(step).catch(logError);
     log(`finished ${step.plugin}.`);
     logVerbose(`(unordered)`);
   }
@@ -245,7 +245,6 @@ ${JSON.stringify(config, undefined, ` `)}`);
       else{
         try{
           process = require(step.plugin);
-
         }catch(error){
           if (error.code === 'MODULE_NOT_FOUND'){
             logVerbose(`installing module ${step.plugin}`);
@@ -258,12 +257,15 @@ ${JSON.stringify(config, undefined, ` `)}`);
       }
       log(`starting ${step.plugin}...`);
       logVerbose(`(ordered)`);
-      yield process(step);
+      try{
+        yield process(step);
+      }catch(error){
+        logError(error);
+      }
       log(`finished ${step.plugin}.`);
       logVerbose(`(ordered)`);
     }
   }).catch(logError);
-  return;
 };
 const checkConfig = () => {
   const config = getconfig();
