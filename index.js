@@ -80,7 +80,6 @@ if(argv[`version`]){
 }
 const action = argv._[0] || ``;
 const tags = argv[`tag`];
-const skips = argv[`skip`];
 const purge = argv[`purge`];
 //Logging
 const logLevel = argv[`verbose`] ? 2
@@ -139,32 +138,14 @@ ${JSON.stringify(config, undefined, ` `)}`);
   //Unordered
   for(var step of unordered){
     if(tags.length){
-      let tagged = false;
+      let tagged = true;
       const stepTags = typeof step.tag === 'object' ? step.tag : [step.tag];
-      for(let i = 0; i < tags.length; i++){
-        for(let j = 0; j < stepTags.length; j++){
-          if(tags[i] === stepTags[j]){
-            tagged = true;
-          }
-          if(tagged === true) break;
+      for(let i = 0; i < tags.length; i++)
+        if(stepTags.indexOf(tags[i]) === -1) {
+          tagged = false;
+          break;
         }
-        if(tagged === true) break;
-      }
       if(!tagged) continue;
-    }
-    if(skips.length){
-      let tagged = false;
-      const stepTags = typeof step.tag === 'object' ? step.tag : [step.tag];
-      for(let i = 0; i < skips.length; i++){
-        for(let j = 0; j < stepTags.length; j++){
-          if(skips[i] === stepTags[j]){
-            tagged = true;
-          }
-          if(tagged === true) break;
-        }
-        if(tagged === true) break;
-      }
-      if(tagged) continue;
     }
     let run;
     if(!step.plugin){
@@ -207,32 +188,14 @@ ${JSON.stringify(config, undefined, ` `)}`);
   co(function*(){
     for(var step of ordered){
       if(tags.length){
-        let tagged = false;
+        let tagged = true;
         const stepTags = typeof step.tag === 'object' ? step.tag : [step.tag];
-        for(let i = 0; i < tags.length; i++){
-          for(let j = 0; j < stepTags.length; j++){
-            if(tags[i] === stepTags[j]){
-              tagged = true;
-            }
-            if(tagged === true) break;
+        for(let i = 0; i < tags.length; i++)
+          if(stepTags.indexOf(tags[i]) === -1) {
+            tagged = false;
+            break;
           }
-          if(tagged === true) break;
-        }
         if(!tagged) continue;
-      }
-      if(skips.length){
-        let tagged = false;
-        const stepTags = typeof step.tag === 'object' ? step.tag : [step.tag];
-        for(let i = 0; i < skips.length; i++){
-          for(let j = 0; j < stepTags.length; j++){
-            if(skips[i] === stepTags[j]){
-              tagged = true;
-            }
-            if(tagged === true) break;
-          }
-          if(tagged === true) break;
-        }
-        if(tagged) continue;
       }
       let run;
       step.config = {
