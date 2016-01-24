@@ -180,9 +180,12 @@ ${JSON.stringify(config, undefined, ` `)}`);
     }
     log(`starting ${step.plugin}...`);
     logVerbose(`(unordered)`);
-    run(step).catch(logError);
-    log(`finished ${step.plugin}.`);
-    logVerbose(`(unordered)`);
+    run(step)
+    .then(()=>{
+      log(`finished ${step.plugin}.`);
+      logVerbose(`(unordered)`);
+    })
+    .catch(logError);
   }
   //Ordered
   co(function*(){
