@@ -185,14 +185,14 @@ ${JSON.stringify(config, undefined, ` `)}`);
     }else{
       pluginCounts[step.plugin] = 0;
     }
-    log(`starting ${step.plugin}${pluginCounts[step.plugin] ? ` ${pluginCounts[step.plugin]}` : ``}...`);
+    log(`starting ${step.plugin}${pluginCounts[step.plugin] ? ` (${pluginCounts[step.plugin]})` : ``}...`);
     logVerbose(`(unordered)`);
     (function(){
       const endstep = step.plugin;
       const count = pluginCounts[step.plugin];
       run(step)
       .then(()=>{
-        log(`finished ${endstep}${count? ` ${count}` : ``}.`);
+        log(`finished ${endstep}${count? ` (${count})` : ``}.`);
         logVerbose(`(unordered)`);
       }).catch(logError);
     })()
