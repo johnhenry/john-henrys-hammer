@@ -127,6 +127,7 @@ ${JSON.stringify(config, undefined, ` `)}`);
     else
       log(`${config.dir} already exists`)
   }
+  const pluginCounts = {__proto__:null};
   log(`building files...`);
   if(tags.length)
     log(`running steps tagged with: ${tags.join(`,`)}`);
@@ -178,14 +179,23 @@ ${JSON.stringify(config, undefined, ` `)}`);
         }
       }
     }
-    log(`starting ${step.plugin}...`);
+
+    if(pluginCounts[step.plugin] !== undefined){
+      pluginCounts[step.plugin] = pluginCounts[step.plugin] + 1;
+    }else{
+      pluginCounts[step.plugin] = 0;
+    }
+    log(`starting ${step.plugin}${pluginCounts[step.plugin] ? ` ${pluginCounts[step.plugin]}` : ``}...`);
     logVerbose(`(unordered)`);
-    run(step)
-    .then(()=>{
-      log(`finished ${step.plugin}.`);
-      logVerbose(`(unordered)`);
-    })
-    .catch(logError);
+    (function(){
+      const endstep = step.plugin;
+      const count = pluginCounts[step.plugin];
+      run(step)
+      .then(()=>{
+        log(`finished ${endstep}${count? ` ${count}` : ``}.`);
+        logVerbose(`(unordered)`);
+      }).catch(logError);
+    })()
   }
   //Ordered
   co(function*(){
