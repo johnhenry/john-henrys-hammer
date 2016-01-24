@@ -127,7 +127,6 @@ ${JSON.stringify(config, undefined, ` `)}`);
     else
       log(`${config.dir} already exists`)
   }
-  const pluginCounts = {__proto__:null};
   log(`building files...`);
   if(tags.length)
     log(`running steps tagged with: ${tags.join(`,`)}`);
@@ -180,20 +179,15 @@ ${JSON.stringify(config, undefined, ` `)}`);
       }
     }
 
-    if(pluginCounts[step.plugin] !== undefined){
-      pluginCounts[step.plugin] = pluginCounts[step.plugin] + 1;
-    }else{
-      pluginCounts[step.plugin] = 0;
-    }
-    log(`starting ${step.plugin}${pluginCounts[step.plugin] ? ` (${pluginCounts[step.plugin]})` : ``}...`);
-    logVerbose(`(unordered)`);
+    const unordedId = String(Math.random()).substr(2, 5);
+    log(`starting ${step.plugin}... (id:${unordedId})`);
     (function(){
       const endstep = step.plugin;
-      const count = pluginCounts[step.plugin];
+      const localId = unordedId;
+      const startTime = Number(Date.now());
       run(step)
       .then(()=>{
-        log(`finished ${endstep}${count? ` (${count})` : ``}.`);
-        logVerbose(`(unordered)`);
+        log(`finished ${endstep}. (id:${localId}) ${(Number(Date.now()) - startTime)/1000} sec`);
       }).catch(logError);
     })()
   }
@@ -235,15 +229,14 @@ ${JSON.stringify(config, undefined, ` `)}`);
           }
         }
       }
-      log(`starting ${step.plugin}...`);
-      logVerbose(`(ordered)`);
+      log(`starting ${step.plugin}... [order:${step.order}] `);
+      const startTime = Number(Date.now());
       try{
         yield run(step);
       }catch(error){
         logError(error);
       }
-      log(`finished ${step.plugin}.`);
-      logVerbose(`(ordered)`);
+      log(`finished ${step.plugin}. [order:${step.order}] ${(Number(Date.now()) - startTime)/1000} sec`);
     }
   }).catch(logError);
 };
