@@ -1,15 +1,12 @@
 'use strict';
 
 //imports
-const fs    = require(`fs`);
+const fs    = require(`fs-extra`);
 const path  = require(`path`);
 const exec  = require(`child_process`).execSync;
 const yargs = require(`yargs`);
 const co    = require(`co`);
 const inquisitor = require(`inquisitor`);
-//local imports
-const rmdir = require(`./lib/rmdir`);
-
 //constants
 const cwd = process.cwd();
 const resolveCWD = target => path.resolve(cwd, target);
@@ -109,18 +106,19 @@ ${JSON.stringify(config, undefined, ` `)}`);
   config.dir = config.dir || defaultDirectory;
   if(purge === true){
     log(`forceing purge ${resolveCWD(config.dir)}...`);
-    rmdir(resolveCWD(config.dir));
+    fs.emptyDirSync(resolveCWD(config.dir));
     return log(`purged!`);
   }
   else if(config.purge === true && purge !== false){
     //Purge previous build
     log(`purging ${resolveCWD(config.dir)}...`);
-    rmdir(resolveCWD(config.dir));
+    fs.emptyDirSync(resolveCWD(config.dir));
     log(`purged!`);
   }
   //Create directory for build
   try{
-    fs.mkdirSync(resolveCWD(config.dir));
+    fs.emptyDirSync(resolveCWD(config.dir));
+    //fs.mkdirSync(resolveCWD(config.dir));
   }catch(error){
     if(error.code !== "EEXIST")
       return logError(new Error(`Error creating directory: ${error}`));
@@ -285,7 +283,7 @@ if(argv.add){
 //Do not exectue, but rather purge folder
 if(argv.purge){
   try{
-    return rmdir(resolveCWD(getconfig().dir || defaultDirectory));
+    return fs.emptyDirSync(resolveCWD(getconfig().dir || defaultDirectory));
   }catch(error){
     return logError(new Error(`valid ${configBase} required to purge: ${error}`));
   }
